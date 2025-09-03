@@ -24,7 +24,8 @@ export const search = async (req, res) => {
     }
 
     const results = await axios.get(
-      `${OMDB_BASE}?apikey=${OMDB_API_KEY}&s=${query}&page=${page}`
+      `https://www.omdbapi.com/?apikey=cea62c6&s=${query}&page=${page}`
+      // `${OMDB_BASE}?apikey=${OMDB_API_KEY}&s=${query}&page=${page}`
     );
     if (results.data.Response === "False") {
       return res.status(404).json({ error: results.data.Error });
