@@ -18,4 +18,6 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use("/movies", movieRoutes);
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+export default app;
