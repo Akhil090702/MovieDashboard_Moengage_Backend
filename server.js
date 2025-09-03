@@ -23,10 +23,6 @@ app.get("/", (req, res) => {
   res.send("Movie. are visible on vercel");
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 export default app;
-
-// server.js
-// import app from "./App.js";
-// export default app; // Vercel will use this

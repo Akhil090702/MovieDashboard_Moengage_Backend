@@ -4,7 +4,7 @@ import SearchCache from "../models/SearchCache.js";
 import "dotenv/config";
 
 const OMDB_API_KEY = process.env.OMDB_API_KEY;
-const OMDB_BASE = "https://www.omdbapi.com/";
+const OMDB_BASE = process.env.OMDB_BASE;
 
 export const search = async (req, res) => {
   const query = req.query.q;
