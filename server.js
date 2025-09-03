@@ -20,4 +20,8 @@ mongoose
 app.use("/movies", movieRoutes);
 // app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
+app.get("/", (req, res) => {
+  res.send("Movie. are visible on vercel");
+});
+
 export default app;
