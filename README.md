@@ -56,7 +56,6 @@ npm install
 PORT=5000
 OMDB_API_KEY=your_omdb_api_key
 MONGO_URI=mongodb://localhost:27017/moviedb
-JWT_SECRET=your_jwt_secret_key
 
 # Start the backend server
 npm run dev
