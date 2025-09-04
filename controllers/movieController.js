@@ -10,18 +10,18 @@ export const search = async (req, res) => {
   const query = req.query.q;
   const page = req.query.page;
   try {
-    //   const cached = await SearchCache.findOne({
-    //     q: query,
-    //     page: parseInt(page) || 1,
-    //   });
-    //   if (cached) {
-    //     return res.json({
-    //       Search: cached.results,
-    //       totalResults: cached.results.length,
-    //       Response: "True",
-    //       cached: true,
-    //     });
-    //   }
+    const cached = await SearchCache.findOne({
+      q: query,
+      page: parseInt(page) || 1,
+    });
+    if (cached) {
+      return res.json({
+        Search: cached.results,
+        totalResults: cached.results.length,
+        Response: "True",
+        cached: true,
+      });
+    }
 
     const results = await axios.get(
       `${OMDB_BASE}?apikey=${OMDB_API_KEY}&s=${query}&page=${page}`
@@ -31,19 +31,19 @@ export const search = async (req, res) => {
     }
 
     console.log("Results are: ", results);
-    // try {
-    //   await SearchCache.create({
-    //     q: query,
-    //     results: results.data.Search,
-    //     page: parseInt(page) || 1,
-    //   });
-    // } catch (err) {
-    //   if (err.code === 11000) {
-    //     console.log("Cache already exists, skipping create.");
-    //   } else {
-    //     throw err;
-    //   }
-    // }
+    try {
+      await SearchCache.create({
+        q: query,
+        results: results.data.Search,
+        page: parseInt(page) || 1,
+      });
+    } catch (err) {
+      if (err.code === 11000) {
+        console.log("Cache already exists, skipping create.");
+      } else {
+        throw err;
+      }
+    }
     res.json(results.data);
   } catch (err) {
     console.error("Error searching movies:", err.message);
