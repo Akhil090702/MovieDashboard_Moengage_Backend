@@ -43,7 +43,7 @@ It handles fetching movies from the OMDb API, caching results in MongoDB, and se
 
 ## 📦 Installation & Setup
 
-1. Clone the repo:
+# Clone the repo:
 
    ```bash
    git clone https://github.com/Akhil090702/MovieDashboard_Moengage_Backend.git
