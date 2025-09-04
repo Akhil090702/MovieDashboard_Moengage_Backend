@@ -51,32 +51,64 @@ export const search = async (req, res) => {
   }
 };
 
+// export const getMovieById = async (req, res) => {
+//   const id = req.params.id;
+//   console.log("Id received in conteoller is: ", id);
+  
+//   try {
+//     const cached = await Movie.findOne({ imdbID: id });
+//     if (cached) return res.json(cached.raw);
+
+//     const { data } = await axios.get(
+//       `${OMDB_BASE}?apikey=${OMDB_API_KEY}&i=${id}&plot=full`
+//     );
+//     if (data.Response === "False")
+//       return res.status(404).json({ error: data.Error });
+
+//     try {
+//       await Movie.create({
+//         imdbID: data.imdbID,
+//         raw: data,
+//       });
+//     } catch (err) {
+//       if (err.code === 11000) {
+//         console.log("Cache already exists, skipping create.");
+//       } else {
+//         throw err;
+//       }
+//     }
+//     res.json(newMovie.raw);
+//   } catch (err) {
+//     console.error("Error fetching movie by ID:", err.message);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// };
+
+
 export const getMovieById = async (req, res) => {
   const id = req.params.id;
-  console.log("Id received in conteoller is: ", id);
-  
+  console.log("Id received in controller is:", id);
+
   try {
+    // Check cache first
     const cached = await Movie.findOne({ imdbID: id });
     if (cached) return res.json(cached.raw);
 
+    // Fetch from OMDB
     const { data } = await axios.get(
       `${OMDB_BASE}?apikey=${OMDB_API_KEY}&i=${id}&plot=full`
     );
-    if (data.Response === "False")
-      return res.status(404).json({ error: data.Error });
 
-    try {
-      await Movie.create({
-        imdbID: data.imdbID,
-        raw: data,
-      });
-    } catch (err) {
-      if (err.code === 11000) {
-        console.log("Cache already exists, skipping create.");
-      } else {
-        throw err;
-      }
+    if (data.Response === "False") {
+      return res.status(404).json({ error: data.Error });
     }
+
+    // Save to DB
+    const newMovie = await Movie.create({
+      imdbID: data.imdbID,
+      raw: data,
+    });
+
     res.json(newMovie.raw);
   } catch (err) {
     console.error("Error fetching movie by ID:", err.message);

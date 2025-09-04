@@ -4,6 +4,6 @@ import { search, getMovieById } from "../controllers/movieController.js";
 const router = express.Router();
 
 router.get("/search", search);
-router.get("/id", getMovieById);    
+router.get("/id/:id", getMovieById);
 
 export default router;
