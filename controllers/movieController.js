@@ -53,7 +53,8 @@ export const search = async (req, res) => {
 
 export const getMovieById = async (req, res) => {
   const id = req.params.id;
-
+  console.log("Id received in conteoller is: ", id);
+  
   try {
     const cached = await Movie.findOne({ imdbID: id });
     if (cached) return res.json(cached.raw);
